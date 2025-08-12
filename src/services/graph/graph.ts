@@ -73,7 +73,6 @@ async function followUpWebSearch(
 
     const response = await axios.post(backendUrl, { state });
     console.log('followUpWebSearch completed:');
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>', response.data.lastStep)
 
     return response.data.lastStep
   } catch (error) {
