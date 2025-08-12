@@ -23,9 +23,9 @@ export const augmentationSystemPrompt = `
 
 export const createTaskSummaryPrompt = (
   initialUserPrompt: string,
+  retrievedContext?: string,
   scrapedServiceContent?: string,
   scrapedServices?: string,
-  retrievedContext?: string
 ) =>
   `Tu esi patyręs socialinės medijos reklamos kūrėjas, puikiai išmanantis tiesioginės rinkodaros principus.\n` +
   `Kuri įtaigius, konversijas skatinančius pradinius reklamos tekstus, pritaikytus konkrečioms auditorijoms, produktams ir reklaminių kampanijų tikslams.\n` +
@@ -43,12 +43,12 @@ export const createTaskSummaryPrompt = (
   `- Nurodyk socialinės medijos platformą, kuriai bus kuriama žinutė;\n` +
   `- Išskirk svarbiausius SEO raktažodžius, kurie turi būti įtraukti į reklaminę žinutę;\n` +
   `- Pateik apibendrintą informaciją apie paslaugą ar paslaugas, arba bendrai informaciją apie įmonę.Pateik jos tiek, kad būtų naudinga kuriant reklamą.\n` +
-  `- Pateik ne daugiau kaip 2 reklamos žinučių pavyzdžius iš konteksto duomenų bazės. Jeigu tokių pavyzdžių nėra, tuomet nurodyk, kad pavyzdžių nėra. Savo pavyzdžių nekurk;\n\n` +
+  `- Pateik ne daugiau kaip 2 reklamos žinučių pavyzdžius iš konteksto duomenų bazės. Jeigu nėra nei vieno pavyzdžio, savo pavyzdžių nekurk;\n\n` +
   `Turima informacija:\n` +
   `- Vartotojo pradinė žinutė: <<<${initialUserPrompt}>>>\n` +
   `${scrapedServiceContent ? '- Informacija apie įmonės konkrečią paslaugą \n: <<<' + scrapedServiceContent + '>>>' : ''}\n` +
   `${scrapedServices ? '- Įmonės teikiamų paslaugų sąrašas \n: <<<' + scrapedServices + '>>>' : ''}\n` +
-  `- Turimi reklamos pavyzdžiai iš konteksto duomenų bazės: <<<${retrievedContext || "nėra"}>>>\n` +
+  `${retrievedContext ? '- Turimi reklamos pavyzdžiai iš konteksto duomenų bazės\n: <<<' + retrievedContext + '>>>' : ''}\n` +
   `  **Nerašyk jokio papildomo paaiškinimo ar įžanginio teksto, pateik tik gryną užduoties turinį, kurį būtų galima pernaudoti.**`;
 
 export const generateAdPrompt = (taskSummary: string) =>

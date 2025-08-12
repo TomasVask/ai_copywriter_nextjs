@@ -67,16 +67,18 @@ async function followUpWebSearch(
 ): Promise<{ messages: AIMessage[] }> {
   try {
     const isProduction = process.env.NODE_ENV === "production";
-    const backendUrl = isProduction
-      ? process.env.SEARCH_SERVICE_URL || "http://34.88.74.163:8080/"
+    const backendUrl = isProduction && process.env.SEARCH_SERVICE_URL
+      ? process.env.SEARCH_SERVICE_URL
       : "http://localhost:8080/";
 
     const response = await axios.post(backendUrl, { state });
     console.log('followUpWebSearch completed:');
+    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>', response.data.lastStep)
+
     return response.data.lastStep
   } catch (error) {
     console.log('Error in followUpWebSearch:', error);
-    const errorMessage = handleModelError(error, CustomFunction.ScrapedServiceContent);
+    const errorMessage = handleModelError(error);
     return { messages: [errorMessage] };
   }
 }
@@ -209,11 +211,10 @@ async function createTaskSummary(state: typeof StateAnnotation.State, modelName:
 
     const prompt = [
       scrapedServices ?
-        new SystemMessage(createTaskSummaryPrompt(initialUserPrompt, undefined, scrapedServices, retrievedContext)) :
-        new SystemMessage(createTaskSummaryPrompt(initialUserPrompt, scrapedServiceContent, undefined, retrievedContext)),
+        new SystemMessage(createTaskSummaryPrompt(initialUserPrompt, retrievedContext, undefined, scrapedServices)) :
+        new SystemMessage(createTaskSummaryPrompt(initialUserPrompt, retrievedContext, scrapedServiceContent)),
       new HumanMessage("Prašau sukurti apibendrintą užduotį reklamos sukūrimui pagal pateiktą informaciją."),
     ];
-
     const response = await llmInstance.invoke(prompt);
     response.additional_kwargs = {
       ...response.additional_kwargs,

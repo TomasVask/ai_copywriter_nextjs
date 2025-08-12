@@ -50,6 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.write(`data: ${JSON.stringify({ type: "complete" })}\n\n`);
       res.end();
     } catch (error) {
+      console.error("Error in workflow:", error);
       const json = JSON.stringify({ error: String(error), type: "error" });
       res.write(`❌ Error: ${json}\n\n`);
       res.end();

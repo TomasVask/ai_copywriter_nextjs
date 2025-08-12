@@ -170,8 +170,8 @@ export function handleModelError(
       console.error(`❌ Failed to decide whether retrieval needed:`, errorMessage);
       customErrorMessage = new AIMessage(`❌ Failed to decide whether retrieval needed: ${errorMessage}`);
     } else {
-      console.error(`❌ Error:`, errorMessage);
-      customErrorMessage = new AIMessage(`❌ Error: ${errorMessage}`);
+      console.error(`❌ Error:`, error);
+      customErrorMessage = new AIMessage(`❌ Error: ${error}`);
     }
     customErrorMessage.additional_kwargs = {
       ...customErrorMessage.additional_kwargs,
