@@ -40,7 +40,6 @@ export const retrieveTool = tool(
     );
     const companyFilter = foundCompany ? { company: foundCompany } : undefined;
     const retrievedDocs = await vectorStore.similaritySearch(query, 4, companyFilter);
-
     // Filter out duplicates by pageContent (or use another unique property if needed)
     const uniqueDocs = [];
     const seenContents = new Set<string>();
@@ -59,7 +58,7 @@ export const retrieveTool = tool(
     Įmonė: ${doc.metadata.company}
     `).join("\n");
 
-    console.log('RETRIEVE completed')
+    console.log('RETRIEVE completed', serialized, '>>>>>>>>>>>>>>>>>>>>')
     return [serialized, uniqueDocs];
   },
   {

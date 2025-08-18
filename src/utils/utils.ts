@@ -167,8 +167,8 @@ export function handleModelError(
     };
   } else {
     if (customFunction === CustomFunction.QueryOrRespond) {
-      console.error(`❌ Failed to decide whether retrieval needed:`, errorMessage);
-      customErrorMessage = new AIMessage(`❌ Failed to decide whether retrieval needed: ${errorMessage}`);
+      console.error(`❌ Failed to decide whether retrieval needed:`, error);
+      customErrorMessage = new AIMessage(`❌ Failed to decide whether retrieval needed: ${error}`);
     } else {
       console.error(`❌ Error:`, error);
       customErrorMessage = new AIMessage(`❌ Error: ${error}`);

@@ -165,19 +165,18 @@ function getModelInstance(
 ): ChatAnthropic | ChatGoogleGenerativeAI | ChatOpenAI<ChatOpenAICallOptions> {
   const modelMap = {
     openai: new ChatOpenAI({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1",
       temperature,
       topP,
       maxTokens: 1500,
     }),
     gemini: new ChatGoogleGenerativeAI({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       temperature,
-      topP,
-      maxOutputTokens: 1500,
+      topP
     }),
     anthropic: new ChatAnthropic({
-      model: "claude-3-5-sonnet-20240620",
+      model: "claude-sonnet-4-20250514",
       temperature,
       topP,
       maxTokens: 1500,
@@ -197,6 +196,7 @@ async function createTaskSummary(state: typeof StateAnnotation.State, modelName:
     const llmInstance = getModelInstance(modelName, 0.1, 0.9);
     const retrievalToolMessage = state.messages?.find((message) => message.name === "retrieve");
     const humanMessageList = state.messages?.filter((message) => message instanceof HumanMessage);
+
     const lastHumanMessage = humanMessageList ? humanMessageList[humanMessageList.length - 1] : undefined;
 
     const retrievedContext = retrievalToolMessage ? extractStringContent(retrievalToolMessage.content) : '';
@@ -214,6 +214,7 @@ async function createTaskSummary(state: typeof StateAnnotation.State, modelName:
         new SystemMessage(createTaskSummaryPrompt(initialUserPrompt, retrievedContext, scrapedServiceContent)),
       new HumanMessage("Prašau sukurti apibendrintą užduotį reklamos sukūrimui pagal pateiktą informaciją."),
     ];
+
     const response = await llmInstance.invoke(prompt);
     response.additional_kwargs = {
       ...response.additional_kwargs,

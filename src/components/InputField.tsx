@@ -13,9 +13,9 @@ interface InputFieldProps {
 }
 
 const MODEL_INFO = [
-  { key: 'openai', label: 'GPT-4o' },
-  { key: 'anthropic', label: 'Claude' },
-  { key: 'gemini', label: 'Gemini' }
+  { key: 'openai', label: 'GPT-4.1' },
+  { key: 'anthropic', label: 'Claude Sonnet 4' },
+  { key: 'gemini', label: 'Gemini-2.5-flash' }
 ];
 
 export default function InputField({
@@ -140,7 +140,7 @@ export default function InputField({
               key={model.key}
               pressed={activeModels[model.key]}
               onPressedChange={() => toggleModel(model.key)}
-              className="h-[23px] w-20 text-xs font-medium transition-colors 
+              className="h-[23px] w-32 text-xs font-medium transition-colors 
                          data-[state=on]:bg-primary data-[state=on]:text-primary-foreground 
                          hover:bg-accent hover:text-accent-foreground"
             >
